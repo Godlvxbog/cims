@@ -19,7 +19,7 @@ import java.util.HashMap;
 @Controller
 public class IndexOfController {
 
-    @RequestMapping(value={"/index","/"},method = RequestMethod.GET)
+    @RequestMapping(value={"/index1","/"},method = RequestMethod.GET)
     @ResponseBody
     public String index(HttpSession session){
         System.out.println("你访问了一次");

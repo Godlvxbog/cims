@@ -1,7 +1,7 @@
 package com.zju.controller.test;
 
 import com.zju.model.test.User;
-import com.zju.service.TestService;
+import com.zju.service.test.TestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

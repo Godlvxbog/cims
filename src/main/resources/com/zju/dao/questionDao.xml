@@ -15,12 +15,13 @@
         FROM <include refid="table"/>
 
 --         #下面是if的分支语句if标签内部是条件控制的语句
+--         这里实现了，当userId=0；时候就选出全部，如果不等于0.只选出uerId中的是数据
         <if test="userId != 0">
-            WHERE user_id=#{userId}
+            WHERE user_id=${userId}
         </if>
 
         ORDER BY id DESC
-        LIMIT #{offset} ,#{limit}
+        LIMIT ${offset} ,${limit}
     </select>
 
 

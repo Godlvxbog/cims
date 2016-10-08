@@ -19,7 +19,7 @@ import java.util.Random;
 @SpringApplicationConfiguration(classes = WendaApplication.class)
 
 @Sql("/init_table.sql")
-public class InitDataTests {
+public class DaoTests {
 	//引入到本类的成员变量
 	@Autowired
 	UserDao userDao;
@@ -62,8 +62,8 @@ public class InitDataTests {
 		}
 		//测试取出一个用户
 		Assert.assertEquals("XXXX",userDao.selectById(2).getPassword());
-		userDao.deleteById(2);
-		Assert.assertNull(userDao.selectById(2));
+//		userDao.deleteById(2);
+//		Assert.assertNull(userDao.selectById(2));
 
 		System.out.println(questionDao.selectLatestQuestions(0,2,6));
 

@@ -20,7 +20,7 @@ import java.util.Date;
 public class LogAspect {
     //日志
     private static final Logger logger= LoggerFactory.getLogger(LogAspect.class);
-    @Before("execution(* com.zju.controller.test.*Controller.*(..))")
+    @Before("execution(* com.zju.controller.*Controller.*(..))")
     public void beforeMethod(JoinPoint joinPoint){
         //打印出joinPoint
         StringBuffer sb=new StringBuffer();
@@ -31,7 +31,7 @@ public class LogAspect {
         logger.info("Before Method" +new Date()+sb.toString());
     }
 
-    @After("execution(* com.zju.controller.test.*Controller.*(..))")
+    @After("execution(* com.zju.controller.*Controller.*(..))")
     public void aferMethod(){
         logger.info("After Method" +new Date());
     }

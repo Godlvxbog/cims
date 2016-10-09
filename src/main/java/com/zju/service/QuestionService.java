@@ -16,7 +16,20 @@ public class QuestionService {
     @Autowired
     QuestionDao questionDao;
 
+    public int addQuestion(Question question){
+        //需要做一个敏感词顾虑
+
+        int num= questionDao.addQuestion(question);
+        if (num>0){
+            return  question.getId();
+        }else {
+            return 0;
+        }
+    }
+
     public List<Question> getLatestQuestion(int userId,int offset,int limit){
         return questionDao.selectLatestQuestions(userId,offset,limit);
     }
+
+
 }

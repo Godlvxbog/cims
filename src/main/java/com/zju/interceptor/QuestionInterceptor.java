@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 @Component
-public class LoginRequiredInterceptor implements HandlerInterceptor {
+public class QuestionInterceptor implements HandlerInterceptor {
 
     @Autowired
     HostHolder hostHolder;
@@ -21,7 +21,7 @@ public class LoginRequiredInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         if (hostHolder.getUser()==null){
-            httpServletResponse.sendRedirect("/reglogin?next="+httpServletRequest.getRequestURI());
+            httpServletResponse.sendRedirect("/reglogin?questionnext="+httpServletRequest.getRequestURI());
         }
         return true;
     }

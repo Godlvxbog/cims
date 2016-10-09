@@ -34,6 +34,7 @@ public class LoginController {
                            @RequestParam("username") String username,
                            @RequestParam("password") String password,
                            @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
+                           @RequestParam(value = "questionnext",required = false)String questionnext,
                            @RequestParam(value = "next" ,required = false) String next,
                            HttpServletResponse response){
         //把可能出现的异常try起来
@@ -50,6 +51,9 @@ public class LoginController {
 
                 if (!StringUtils.isBlank(next)){
                     return "redirect:"+next;//登陆成功后跳转
+                }
+                if (!StringUtils.isBlank(questionnext)){
+                    return "redirect:"+questionnext;//登陆成功后跳转到问题发布
                 }
                 return "redirect:/";
             }else{
@@ -69,6 +73,7 @@ public class LoginController {
                            @RequestParam("username") String username,
                            @RequestParam("password") String password,
                         @RequestParam(value = "next" ,required = false) String next,
+                        @RequestParam(value = "questionnext",required = false)String questionnext,
                         @RequestParam(value = "rememberme" ,defaultValue = "false") boolean rememberme,
                         HttpServletResponse response,
                         @CookieValue("ticket") String ticket){
@@ -89,6 +94,11 @@ public class LoginController {
                 if (!StringUtils.isBlank(next)){
                     return "redirect:"+next;//登陆成功后跳转
                 }
+
+                if (!StringUtils.isBlank(questionnext)){
+                    return "redirect:"+questionnext;//登陆成功后跳转
+                }
+
                 return "redirect:/";
             }else{
                 model.addAttribute("msg",map.get("msg"));
@@ -102,8 +112,10 @@ public class LoginController {
 
     @RequestMapping(path = "/reglogin")
     public String reglogin(Model model,
-                           @RequestParam(value = "next" ,required = false) String next){
+                           @RequestParam(value = "next" ,required = false) String next,
+                           @RequestParam(value = "questionnext",required = false)String questionnext){
         model.addAttribute("next",next);//把拦截器带来的参数放在model层中去
+        model.addAttribute("questionnext",questionnext);
         return "login";
     }
 

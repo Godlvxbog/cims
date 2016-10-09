@@ -15,7 +15,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 
@@ -75,23 +77,32 @@ public class TestBootController {
 
     @RequestMapping(value = "/testreq")
     public String testParam(HttpServletRequest request,
-                            HttpServletResponse response
+                            HttpServletResponse response,
+                            @RequestParam(value = "type",defaultValue = "2") int type
                             ){
         StringBuffer sb=new StringBuffer();
         request.setAttribute("setAttribbute","这是一个setAttribbute");
-        System.out.println(request.getCookies());
+        System.out.println("cookie"+request.getCookies());
         System.out.println(request.getAttribute("setAttribbute"));
-        sb.append(request.getContextPath() +request.getCookies());
-        System.out.println(request.getContextPath());
+        sb.append(request.getContextPath());
+        System.out.println("requestion.contextpath+===="+request.getContextPath());
+
 
         //测试Response
         response.addCookie(new Cookie("helloCookie","This is a cookie"));
         response.setHeader("myHeader","HEader");
+        Collection<String> list= response.getHeaders("myHeader");
+
+        //通过参数来控制跳转不同的页面
+        try {
+            if (type>0)
+            response.sendRedirect("/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
-
-
-        return "index";
+        return "index1";
     }
 
     @RequestMapping(value={"/testform"})

@@ -1,11 +1,13 @@
 package com.zju.controller;
 
 import com.zju.service.UserService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,11 +27,14 @@ public class LoginController {
     @Autowired
     UserService userService;
     //这里是写入数据用Post:这车过来需要传入两个参数，username和password;
-//    这里面的页面之间跳转就是你的业务逻辑，需要思考
+//    这里面的页面之间跳转就是你的业务逻辑，逻辑写在service层中，controller只写跳转：
+//    本层主要是：根据返回跳转，下发cookie到浏览器
     @RequestMapping(path = "/reg/")
     public String register(Model model,
                            @RequestParam("username") String username,
                            @RequestParam("password") String password,
+                           @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
+                           @RequestParam(value = "next" ,required = false) String next,
                            HttpServletResponse response){
         //把可能出现的异常try起来
         try {
@@ -38,7 +43,14 @@ public class LoginController {
                 //把的cookie写入到response之中
                 Cookie cookie=new Cookie("ticket",map.get("ticket"));
                 cookie.setPath("/");
+                if (rememberme) {
+                    cookie.setMaxAge(3600*24*5);
+                }
                 response.addCookie(cookie);
+
+                if (!StringUtils.isBlank(next)){
+                    return "redirect:"+next;//登陆成功后跳转
+                }
                 return "redirect:/";
             }else{
                 model.addAttribute("msg",map.get("msg"));
@@ -51,20 +63,32 @@ public class LoginController {
     }
 
     //下面做登陆功能
+
     @RequestMapping(path = "/login/")
     public String login(Model model,
                            @RequestParam("username") String username,
                            @RequestParam("password") String password,
+                        @RequestParam(value = "next" ,required = false) String next,
                         @RequestParam(value = "rememberme" ,defaultValue = "false") boolean rememberme,
-                        HttpServletResponse response){
+                        HttpServletResponse response,
+                        @CookieValue("ticket") String ticket){
         //把可能出现的异常try起来
         try {
-            HashMap<String,String> map=userService.login(username, password);
+            HashMap<String,String> map=userService.login(username, password,ticket);
             if (map.containsKey("ticket")){
-                //把的cookie写入到response之中
-                Cookie cookie=new Cookie("ticket",map.get("ticket"));
+
+                String newticket= map.get("ticket");
+
+                Cookie cookie=new Cookie("ticket",newticket);
                 cookie.setPath("/");
+                if (rememberme) {
+                    cookie.setMaxAge(3600*24*5);
+                }
                 response.addCookie(cookie);
+
+                if (!StringUtils.isBlank(next)){
+                    return "redirect:"+next;//登陆成功后跳转
+                }
                 return "redirect:/";
             }else{
                 model.addAttribute("msg",map.get("msg"));
@@ -77,8 +101,18 @@ public class LoginController {
     }
 
     @RequestMapping(path = "/reglogin")
-    public String reglogin(Model model){
+    public String reglogin(Model model,
+                           @RequestParam(value = "next" ,required = false) String next){
+        model.addAttribute("next",next);//把拦截器带来的参数放在model层中去
         return "login";
+    }
+
+    //写退出
+
+    @RequestMapping(path = "/logout")
+    public String loginout(@CookieValue("ticket") String ticket){
+        userService.logout(ticket);
+        return "redirect:/";
     }
 
 }

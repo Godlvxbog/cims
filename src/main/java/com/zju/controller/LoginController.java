@@ -75,11 +75,11 @@ public class LoginController {
                         @RequestParam(value = "next" ,required = false) String next,
                         @RequestParam(value = "questionnext",required = false)String questionnext,
                         @RequestParam(value = "rememberme" ,defaultValue = "false") boolean rememberme,
-                        HttpServletResponse response,
-                        @CookieValue("ticket") String ticket){
+                        HttpServletResponse response
+                        ){
         //把可能出现的异常try起来
         try {
-            HashMap<String,String> map=userService.login(username, password,ticket);
+            HashMap<String,String> map=userService.login(username, password);
             if (map.containsKey("ticket")){
 
                 String newticket= map.get("ticket");
@@ -99,7 +99,7 @@ public class LoginController {
                     return "redirect:"+questionnext;//登陆成功后跳转
                 }
 
-                return "redirect:/";
+                return "redirect:/";//跳到@Controller中的RequestionMapping中
             }else{
                 model.addAttribute("msg",map.get("msg"));
                 return  "login";

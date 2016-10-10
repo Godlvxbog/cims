@@ -74,7 +74,7 @@ public class UserService {
 
     //下面写登陆的service方法
     //业务逻辑：注册。返回的是注册相关的信息，用Map集合来
-    public HashMap<String,String>  login(String username,String password,String ticket) {
+    public HashMap<String,String>  login(String username,String password) {
         HashMap<String, String> msgMap = new HashMap<>();
         if (StringUtils.isBlank(username)) {
             msgMap.put("msg", "用户名不能为空");

@@ -6,35 +6,41 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
+import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = WendaApplication.class)
 
+@Sql("/comment_table.sql")
+public class CommentInitTest {
 
-public class DaoTests {
-	//引入到本类的成员变量
 	@Autowired
 	CommentDao commentDao;
 
+
 	@Test
-	public void testCommentSelect(){
-		List<Comment> clist= commentDao.selectByEntity(0,0);
-		for (Comment comment:clist){
-			System.out.println(comment.getContent()+" : "+comment.getCreatedDate());
+	public void testCommentInitData(){
+		for (int i=0;i<10;i++){
+			Comment comment=new Comment();
+			comment.setContent("hello--test--content"+i*3+2);
+			comment.setCreatedDate(new Date());
+			comment.setEntityId(0);
+
+			commentDao.addComment(comment);
 		}
 	}
 
+
+
+
+
 	@Test
-	public void testCount(){
-		int cnt= commentDao.getCommentCount(0,0);
-		System.out.println("==========现在的评论条数有：\n"+cnt);
+	public void testLoginInitData(){
+		System.out.println("Hello");
 	}
-
-
-
 
 
 }

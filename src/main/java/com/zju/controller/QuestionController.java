@@ -3,11 +3,14 @@ package com.zju.controller;
 import com.zju.model.HostHolder;
 import com.zju.model.Question;
 import com.zju.service.QuestionService;
+import com.zju.service.UserService;
 import com.zju.util.WendaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +29,9 @@ public class QuestionController {
 
     @Autowired
     QuestionService questionService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     HostHolder hostHolder;//当前用户
@@ -53,6 +59,16 @@ public class QuestionController {
         questionService.addQuestion(question);
 
         return "redirect:/";
+    }
+
+
+    //下面写问答的详细页面
+    @RequestMapping("/question/{qid}")
+    public String questionDetail(@PathVariable("qid") int qid, Model model){
+        Question question= questionService.selectById(qid);
+        model.addAttribute("question",question);
+        model.addAttribute("user",userService.getUser(question.getUserId()));
+        return "detail";
     }
 
 

@@ -138,8 +138,26 @@
                 #end
             </div>
             <a name="draft"></a>
+
+            <div>
+                </br>
+                #foreach($comment in $comment1)
+                    $comment.content</br>
+                    $comment.createdDate</br>
+
+                #end
+
+
+
+
+            </div>
+
+
+
+
             <form action="/addComment" method="post" id="commentform">
                 <input type="hidden" name="questionId" value="$question.id"/>
+
             <div id="zh-question-answer-form-wrap" class="zh-question-answer-form-wrap">
                 <div class="zm-editable-editor-wrap" style="">
                     <div class="zm-editable-editor-outer">
@@ -150,7 +168,7 @@
 
                     <div class="zm-command clearfix">
                             <span class=" zg-right">
-                                <button type="submit" class="submit-button zg-btn-blue">发布回答</button></span>
+                                <button type="submit" class="submit-button zg-btn-blue">发布评论</button></span>
                     </div>
                 </div>
             </div>

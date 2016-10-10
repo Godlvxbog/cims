@@ -1,7 +1,7 @@
 package com.zju.controller;
 
-import com.zju.model.HostHolder;
-import com.zju.model.Question;
+import com.zju.model.*;
+import com.zju.service.CommentService;
 import com.zju.service.QuestionService;
 import com.zju.service.UserService;
 import com.zju.util.WendaUtil;
@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -32,6 +34,9 @@ public class QuestionController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CommentService commentService;
 
     @Autowired
     HostHolder hostHolder;//当前用户
@@ -68,6 +73,19 @@ public class QuestionController {
         Question question= questionService.selectById(qid);
         model.addAttribute("question",question);
         model.addAttribute("user",userService.getUser(question.getUserId()));
+
+        List<Comment> commentList=commentService.getCommentByEntity(qid, EntityType.ENTITY_QUESTION);
+        //这里不仅需要评论的东西，还需要评论用户的头像等东西
+        List<ViewOfObject> comments=new ArrayList<>();
+        for (Comment comment:commentList){
+            ViewOfObject vo=new ViewOfObject();
+            vo.set("comment",comment);
+            vo.set("user",userService.getUser(comment.getUserId()));
+            comments.add(vo);
+
+        }
+        model.addAttribute("comments",comments);
+
         return "detail";
     }
 

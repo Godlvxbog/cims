@@ -1,10 +1,7 @@
 package com.zju.dao;
 
 import com.zju.model.Comment;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -29,5 +26,7 @@ public interface CommentDao {
     @Select({"select count(id) from "+TABLE_NAME +" where entity_id= #{entityId} and entity_type= #{entityType}"})
     int getCommentCount(@Param("entityId") int entityId,@Param("entityType") int entityType);
 
+    @Update("update comment set status=#{status} where id=#{id}")
+    int updateStatus(@Param("id") int id,@Param("status") int status);
 
 }

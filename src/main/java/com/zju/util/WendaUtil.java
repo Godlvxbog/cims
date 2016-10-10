@@ -28,7 +28,7 @@ public class WendaUtil {
     }
 
     //增加一个匿名用户
-    public static int ANONYMOUS_USERID=100;
+    public static int ANONYMOUS_USERID=3;
 
     public static String MD5(String key) {
         char hexDigits[] = {

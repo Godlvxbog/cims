@@ -33,6 +33,13 @@ public class UserService {
         return  userDao.selectById(uid);
     }
 
+    //通过名字获取user
+    public User selectByName(String name){
+        return userDao.selectByName(name);
+    }
+
+
+
     //业务逻辑：注册。返回的是注册相关的信息，用Map集合来
     public HashMap<String,String>  register(String username,String password){
         HashMap<String,String> msgMap=new HashMap<>();

@@ -7,7 +7,7 @@
     <meta name="renderer" content="webkit">
     <meta name="description" content="一个真实的网络问答社区，帮助你寻找答案，分享知识。">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>问答 - 与世界分享你的知识、经验和见解</title>
+    <title>问答 - 消息发送</title>
     <link rel="dns-prefetch" href="">
     <link rel="stylesheet" href="../styles/login.css">
 
@@ -27,28 +27,25 @@
         </div>
         <div class="desk-front sign-flow clearfix sign-flow-simple">
             <div class="view view-signin" data-za-module="SignInForm" style="display: block;">
-                <form  id="regloginform" method="post">
-                    <input type="hidden" name="_xsrf" value="21aa1c8d254df2899b23ab9afbd62a53">
+                <form id="messageSendform" method="post">
                     <div class="group-inputs">
-                        <div class="email input-wrapper">
-                            <input type="text" name="username" aria-label="手机号或邮箱" placeholder="手机号或邮箱" required="">
-                        </div>
+                            发给：
                         <div class="input-wrapper">
-                            <input type="password" name="password" aria-label="密码" placeholder="密码" required="">
+                            <input type="text" name="toName" aria-label="To" placeholder="TO" required="">
+                        </div>
+
+                        内容：</br>
+                        <div class="input-wrapper">
+
+                            <textarea  name="content" aria-label="内容" placeholder="内容" style="margin:auto" rows="12" cols="40" required=""></textarea>
                         </div>
                     </div>
-                    <input type="hidden" name="next" value="$!{next}"/>
-                    <input type="hidden" name="questionnext" value="$!{questionnext}"/>
-                    <div class="button-wrapper command clearfix">
-                        <button class="sign-button submit" type="submit" onclick="form=document.getElementById('regloginform');form.action='/login/'">登录</button>
-                        <button class="sign-button submit" type="submit" onclick="form=document.getElementById('regloginform');form.action='/reg/'">注册</button>
+                    <br>
+                    <div class="command clearfix">
+                        <button class="sign-button submit" style="margin-bottom: auto" type="submit" onclick="form=document.getElementById('messageSendform');form.action='/msg/addMessage1'">发送</button>
+                        <button class="sign-button "  >取消</button>
                     </div>
-                    <div class="signin-misc-wrapper clearfix">
-                        <label class="remember-me">
-                            <input type="checkbox" name="rememberme"  value="false"> 记住我
-                        </label>
-                        <a class="unable-login" href="#">无法登录?</a>
-                    </div>
+
                 </form>
             </div>
         </div>

@@ -71,6 +71,11 @@ public class DaoTests {
 		}
 	}
 
+	@Test
+	public void testGetConversationUnreadCount(){
+		System.out.println("\n\n======="+messageDao.getConversationUnreadCount("24_25",24)+"\n\n");
+	}
+
 
 
 

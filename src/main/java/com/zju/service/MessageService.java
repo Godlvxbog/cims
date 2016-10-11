@@ -30,6 +30,10 @@ public class MessageService {
         return messageDao.getConversationList(userId,offset,limit);
     }
 
+    public int getConversationUnreadCount(String conversationId,int userId){
+        return messageDao.getConversationUnreadCount(conversationId, userId);
+    }
+
 
 
 

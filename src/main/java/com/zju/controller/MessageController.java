@@ -131,6 +131,7 @@ public class MessageController {
             int targetId=( localUserId==conversation.getFormId() ) ? conversation.getToId() :conversation.getFormId();
 
             vo.set("user",userService.getUser(targetId));
+            vo.set("unread",messageService.getConversationUnreadCount(conversation.getConversationId(),localUserId));
             VOs.add(vo);
         }
         model.addAttribute("conversations",VOs);

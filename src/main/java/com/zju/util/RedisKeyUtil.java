@@ -9,6 +9,22 @@ public class RedisKeyUtil {
     private static String BIZ_LIKE="LIKE";
     private static String BIZ_DISLIKE="DISLIKE";
     private static String BIZ_EVENTQUEUE="EVENT_QUEUE";
+    //关注的数据列表key：粉丝和关注对象
+    private static String BIZ_FOLLLOWER="FOLLLOWER";
+    private static String BIZ_FOLLLOWEE="FOLLLOWEE";
+
+//    要知道每个key下面都是一个容器，用来装映射的，
+    //每个实体所有的粉丝的表的key，保证所有实体所有的粉丝列表
+    public static String getFollowerKey(int entityType,int entityId){
+        return BIZ_FOLLLOWER+SPLIT+String.valueOf(entityType)+SPLIT+String.valueOf(entityId);
+    }
+    //每一个实体关注某一类的表：用户我关注的所有的问题，或者人
+    public static String getFolloweeKey(int userId,int entityType){
+        return BIZ_FOLLLOWEE+SPLIT+String.valueOf(userId)+SPLIT+String.valueOf(entityType);
+    }
+
+
+
 
 
     public static String getLikeKey(int entityType,int entityId){

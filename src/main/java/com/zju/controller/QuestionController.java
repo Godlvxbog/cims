@@ -2,6 +2,7 @@ package com.zju.controller;
 
 import com.zju.model.*;
 import com.zju.service.CommentService;
+import com.zju.service.LikeService;
 import com.zju.service.QuestionService;
 import com.zju.service.UserService;
 import com.zju.util.WendaUtil;
@@ -40,6 +41,9 @@ public class QuestionController {
 
     @Autowired
     HostHolder hostHolder;//当前用户
+
+    @Autowired
+    LikeService likeService;
 
     @RequestMapping("/questionForm")
     public String questionForm(){
@@ -81,6 +85,15 @@ public class QuestionController {
             ViewOfObject vo=new ViewOfObject();
             vo.set("comment",comment);
             vo.set("user",userService.getUser(comment.getUserId()));
+            //添加赞与踩相关的功能；
+
+            //判断当前用户是否喜欢
+            if (hostHolder.getUser()==null ){
+                vo.set("liked",0);
+            }else{
+                vo.set("liked",likeService.getLikeStatus(hostHolder.getUser().getId(),EntityType.ENTITY_COMMENT,comment.getId()));
+            }
+            vo.set("likeCount",likeService.getLikeCount(EntityType.ENTITY_COMMENT,comment.getId() ));
             comments.add(vo);
 
         }

@@ -15,7 +15,7 @@ public interface UserDao {
 
     //使用mapper写法
     @Insert({"insert into " +TABLE_NAME+" ( " +INSERT_FIELDS +" ) "+
-            "values( ${name} , #{password} , #{salt} , #{headUrl} )"})
+            "values( #{name} , #{password} , #{salt} , #{headUrl} )"})
     int addUser(User user);
 
     @Select({"select "+ SELECT_FIELDS+" from "+TABLE_NAME +" where id= #{id}"})

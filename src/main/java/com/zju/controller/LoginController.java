@@ -1,5 +1,8 @@
 package com.zju.controller;
 
+import com.zju.async.EventModel;
+import com.zju.async.EventProducer;
+import com.zju.async.EventType;
 import com.zju.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -22,13 +25,16 @@ import java.util.HashMap;
 //专门负责登陆注册的一个Controller,这里面已经准备好了UserService和@RequestParam等参数，需要去处理
 @Controller
 public class LoginController {
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     UserService userService;
     //这里是写入数据用Post:这车过来需要传入两个参数，username和password;
 //    这里面的页面之间跳转就是你的业务逻辑，逻辑写在service层中，controller只写跳转：
 //    本层主要是：根据返回跳转，下发cookie到浏览器
+
+    @Autowired
+    EventProducer eventProducer;
     @RequestMapping(path = "/reg/")
     public String register(Model model,
                            @RequestParam("username") String username,
@@ -79,10 +85,10 @@ public class LoginController {
                         ){
         //把可能出现的异常try起来
         try {
-            HashMap<String,String> map=userService.login(username, password);
+            HashMap<String,Object> map=userService.login(username, password);
             if (map.containsKey("ticket")){
 
-                String newticket= map.get("ticket");
+                String newticket= (String) map.get("ticket");
 
                 Cookie cookie=new Cookie("ticket",newticket);
                 cookie.setPath("/");
@@ -90,6 +96,13 @@ public class LoginController {
                     cookie.setMaxAge(3600*24*5);
                 }
                 response.addCookie(cookie);
+                //登陆完以后，
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN)
+                        .setExts("email","1969084327@qq.com")
+                        .setExts("username",username)
+                        .setActorId((int)map.get("userId")));
+
+
 
                 if (!StringUtils.isBlank(next)){
                     return "redirect:"+next;//登陆成功后跳转

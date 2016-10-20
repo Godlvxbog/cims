@@ -18,7 +18,7 @@ public class QuestionService {
     QuestionDao questionDao;
 
     public int addQuestion(Question question){
-        //需要做一个敏感词顾虑
+        //需要做一个敏感词过滤
         question.setContent(HtmlUtils.htmlEscape(question.getContent()));
         question.setTitle(HtmlUtils.htmlEscape(question.getTitle()));
         int num= questionDao.addQuestion(question);

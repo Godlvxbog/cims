@@ -1,7 +1,8 @@
 package com.zju.controller;
 
-import com.zju.model.Question;
-import com.zju.model.ViewOfObject;
+import com.zju.model.*;
+import com.zju.service.CommentService;
+import com.zju.service.FollowService;
 import com.zju.service.QuestionService;
 import com.zju.service.UserService;
 import org.slf4j.Logger;
@@ -29,6 +30,13 @@ public class HomeController {
     UserService userService;
     @Autowired
     QuestionService questionService;
+    @Autowired
+    FollowService followService;
+    @Autowired
+    HostHolder hostHolder;
+    @Autowired
+    CommentService commentService;
+
 
 
 
@@ -37,7 +45,6 @@ public class HomeController {
     public String home(Model model) {
         List<ViewOfObject> vos=getQuestions(0,0,10);
         model.addAttribute("vos", vos);
-
 
         return "home";
     }
@@ -52,6 +59,26 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping("/profile/{userId}")
+    public String userProfile(Model model, @PathVariable("userId") int userId) {
+        List<ViewOfObject> vos= getQuestions(userId,0,10);
+
+        User user = userService.getUser(userId);
+        ViewOfObject vo = new ViewOfObject();
+        vo.set("user", user);
+        vo.set("commentCount", commentService.getUserCommentCount(userId));
+        vo.set("followerCount", followService.getFollowerCount(EntityType.ENTITY_USER, userId));
+        vo.set("followeeCount", followService.getFolloweeCount(userId, EntityType.ENTITY_USER));
+        if (hostHolder.getUser() != null) {
+            vo.set("followed", followService.isFollower(hostHolder.getUser().getId(), EntityType.ENTITY_USER, userId));
+        } else {
+            vo.set("followed", false);
+        }
+        model.addAttribute("profileUser", vo);
+        model.addAttribute("vos",vos);
+        return "profile";
+    }
+
     //提取出公共的方法
     public List<ViewOfObject> getQuestions(int userId,int offset,int limit){
         List<Question> qlist = questionService.getLatestQuestion(userId, offset, limit);
@@ -64,6 +91,7 @@ public class HomeController {
             //而对应的question的user由question.getUerID得到
             //得到userId之后根据UserService中的getUser可以得到user
             vo.set("question", question);
+            vo.set("followCount",followService.getFollowerCount(EntityType.ENTITY_QUESTION,question.getId()));
             vo.set("user", userService.getUser(question.getUserId()));
             vos.add(vo);
         }

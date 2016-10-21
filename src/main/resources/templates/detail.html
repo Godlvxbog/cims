@@ -31,9 +31,17 @@
             </div>
             <div class="zm-side-section">
                 <div class="zm-side-section-inner" id="zh-question-side-header-wrap">
-                    <button data-follow="q:m:button" class="follow-button zg-follow zg-btn-green" data-id="6727688">
-                        关注问题
-                    </button>
+                    <form id="followform" method="post">
+                        <input type="hidden" name="questionId" value="$!{question.id}" >
+                        <button  type="submit" onclick="form=document.getElementById('followform');form.action='/followQuestion'">关注</button>
+                    </form>
+
+                    <!--<button data-follow="q:m:button" class="follow-button zg-follow zg-btn-green" data-id="6727688">-->
+                        <!--<a href="/followQuestion">-->
+                            <!--关注问题-->
+                        <!--</a>-->
+
+                    <!--</button>-->
                     <div class="zh-question-followers-sidebar">
                         <div class="zg-gray-normal">
                             <a href="">

@@ -1,7 +1,9 @@
 package com.zju;
 
+import com.zju.dao.FeedDao;
 import com.zju.dao.UserDao;
 import com.zju.model.EntityType;
+import com.zju.model.Feed;
 import com.zju.model.User;
 import com.zju.service.FollowService;
 import com.zju.service.UserService;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -28,6 +31,8 @@ public class ServiceTest {
 
 	@Autowired
 	JedisAdapter jedisAdapter;
+	@Autowired
+	FeedDao feedDao;
 
 	@Test
 	public void addUser(){
@@ -35,6 +40,16 @@ public class ServiceTest {
 		for (String key :msg.keySet()){
 			System.out.println(String.format("%s====%s",key,msg.get(key)));
 		}
+	}
+
+
+	@Test
+	public void addFeed(){
+		Feed feed=new Feed();
+		feed.setCreatedDate(new Date());
+		feed.setData("nihao");
+		feed.setType(EntityType.ENTITY_COMMENT );
+		feedDao.addFeed(feed);
 	}
 
 

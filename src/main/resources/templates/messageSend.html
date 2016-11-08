@@ -1,55 +1,38 @@
-<!DOCTYPE html>
-<html lang="zh-CN"
-      class="is-AppPromotionBarVisible cssanimations csstransforms csstransitions flexbox no-touchevents no-mobile">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
-    <meta name="description" content="一个真实的网络问答社区，帮助你寻找答案，分享知识。">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>问答 - 消息发送</title>
-    <link rel="dns-prefetch" href="">
-    <link rel="stylesheet" href="../styles/login.css">
+#parse("./mypages/header.html")
 
-</head>
-<body class="zhi  no-auth">
-<div class="index-main">
-    <div class="index-main-body">
-        <div class="index-header">
-            <h1 class="logo hide-text"><img src="../images/res/nk.png" alt=""></h1>
-            <h2 class="subtitle">
-                #if($msg)
-                $!{msg}
-                #else
-                问答：【^ _ ^】
-                #end
-            </h2>
-        </div>
-        <div class="desk-front sign-flow clearfix sign-flow-simple">
-            <div class="view view-signin" data-za-module="SignInForm" style="display: block;">
-                <form id="messageSendform" method="post">
-                    <div class="group-inputs">
-                            发给：
-                        <div class="input-wrapper">
-                            <input type="text" name="toName" aria-label="To" placeholder="TO" required="">
-                        </div>
+<div class="container">
+    <div class="row clearfix">
+        <aside class="col-md-3 sidebar"></aside>
+        <div class="col-md-6">
 
-                        内容：</br>
-                        <div class="input-wrapper">
-
-                            <textarea  name="content" aria-label="内容" placeholder="内容" style="margin:auto" rows="12" cols="40" required=""></textarea>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="command clearfix">
-                        <button class="sign-button submit" style="margin-bottom: auto" type="submit" onclick="form=document.getElementById('messageSendform');form.action='/msg/addMessage1'">发送</button>
-                        <button class="sign-button "  >取消</button>
+            <form id="messageSendform" method="post">
+                <div>
+                    发给：
+                    <div>
+                        <input type="text" name="toName" aria-label="To" placeholder="TO" required="" style="width:300px" >
                     </div>
 
-                </form>
-            </div>
+                    内容：</br>
+                    <div>
+
+                        <textarea name="content" aria-label="内容" placeholder="内容" style="margin:auto" rows="12"
+                                  cols="40" required=""></textarea>
+                    </div>
+                </div>
+                <br>
+
+                <div>
+                    <button class="btn btn-sm " style="margin-bottom: auto" type="submit"
+                            onclick="form=document.getElementById('messageSendform');form.action='/msg/addMessage1'">发送
+                    </button>
+                    <button class="btn btn-sm ">取消</button>
+                </div>
+
+            </form>
+
         </div>
     </div>
 </div>
+
 </body>
 </html>

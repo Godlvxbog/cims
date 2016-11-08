@@ -51,11 +51,12 @@ public class UserService {
             msgMap.put("msg","密码不能为空");
             return msgMap;
         }
+        //你说为什么要乱码
         //下面有一个业务，需要判断你当前注册的user在数据库中时候存在
 //        所以需要把数据库中user提取出来 getUser(String username)
        User userDB=userDao.selectByName(username);
         if (userDB!=null){//这里表示user在数据库中已经存在了
-            msgMap.put("msg","用户名已经存在了");
+            msgMap.put("msg","当前用户名已经存在了");
             return msgMap;
         }
 

@@ -1,5 +1,8 @@
 package com.zju.controller;
 
+import com.zju.async.EventModel;
+import com.zju.async.EventProducer;
+import com.zju.async.EventType;
 import com.zju.model.*;
 import com.zju.service.CommentService;
 import com.zju.service.LikeService;
@@ -29,7 +32,8 @@ import java.util.Random;
 public class QuestionController {
     //日志
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
-
+    @Autowired
+    EventProducer eventProducer;
     @Autowired
     QuestionService questionService;
 
@@ -51,23 +55,41 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "/question/add1")//页面进来需要的处理
+    @ResponseBody
     public String addQuestion1(@RequestParam(value="title",required = false,defaultValue = "title1") String title,
                                @RequestParam(value="content",required = false,defaultValue = "content1") String content){
-        Question question=new Question();
-        question.setTitle(title);
-        question.setContent(content);
-        question.setCreateDate(new Date());
-        question.setCommentCount(0);
-        if (hostHolder.getUser()==null){
-            //question.setUserId(WendaUtil.ANNOYMOUS_USERID);//设置匿名用户，在utils包中谈价匿名用户的id
-            return WendaUtil.getJSONString(999);
+        try {
 
-        }else{
-            question.setUserId(hostHolder.getUser().getId());
+            Question question = new Question();
+            question.setTitle(title);
+            question.setContent(content);
+            question.setCreateDate(new Date());
+            question.setCommentCount(0);
+            if (hostHolder.getUser() == null) {
+                //question.setUserId(WendaUtil.ANNOYMOUS_USERID);//设置匿名用户，在utils包中谈价匿名用户的id
+                return WendaUtil.getJSONString(999);
+
+            } else {
+                question.setUserId(hostHolder.getUser().getId());
+            }
+
+            if (questionService.addQuestion(question) > 0) {
+                //问题发布成功时候发一个异步事件
+                eventProducer.fireEvent(new EventModel(EventType.ADD_QUESTION)
+                        .setActorId(question.getUserId())
+                        .setEntityId(question.getId())
+                        .setExts("title", question.getTitle())
+                        .setExts("content", question.getContent()));
+                return WendaUtil.getJSONString(0);
+            }
         }
-        questionService.addQuestion(question);
+        catch (Exception e){
+            logger.error("增加文章失败"+e.getMessage());
+        }
+        return WendaUtil.getJSONString(1,"添加文章失败");
 
-        return "redirect:/";
+//        questionService.addQuestion(question);
+//        return "redirect:/";
     }
 
 

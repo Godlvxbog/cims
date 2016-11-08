@@ -141,8 +141,7 @@ public class FollowController {
     }
 
     //某个用户的关注对象
-    @RequestMapping(path = {"/user/{uid}/followees"}, method = {RequestMethod.POST})
-    @ResponseBody
+    @RequestMapping(path = {"/user/{uid}/followees"})
     public String followees(Model model, @PathVariable("uid")int userId) {
         //uid的关注对象从数据库中提取出来
         List<Integer> followeeIds=followService.getFollowees(userId,EntityType.ENTITY_USER,10);
@@ -152,18 +151,21 @@ public class FollowController {
         }else{
             model.addAttribute("followees",getUserInfo(WendaUtil.ANONYMOUS_USERID,followeeIds));
         }
+        model.addAttribute("curUser",hostHolder.getUser());
+        model.addAttribute("curFolloweeCount",followService.getFolloweeCount(hostHolder.getUser().getId(),EntityType.ENTITY_USER));
         return "followees";
     }
 
-    @RequestMapping(path = {"/user/{uid}/followers"}, method = {RequestMethod.POST})
-    @ResponseBody
+    @RequestMapping(path = {"/user/{uid}/followers"})
     public String followers(Model model,@PathVariable("uid") int userId) {
-        List<Integer> followerIds=followService.getFollowers(userId,EntityType.ENTITY_USER,10);
+        List<Integer> followerIds=followService.getFollowers(EntityType.ENTITY_USER,userId,10);
         if (hostHolder!=null){
-            model.addAttribute("followees",getUserInfo(hostHolder.getUser().getId(),followerIds));
+            model.addAttribute("followers",getUserInfo(hostHolder.getUser().getId(),followerIds));
         }else{
-            model.addAttribute("followees",getUserInfo(WendaUtil.ANONYMOUS_USERID,followerIds));
+            model.addAttribute("followers",getUserInfo(WendaUtil.ANONYMOUS_USERID,followerIds));
         }
+        model.addAttribute("curUser",hostHolder.getUser());
+        model.addAttribute("curFollowerCount",followService.getFollowerCount(EntityType.ENTITY_USER,hostHolder.getUser().getId()));
         return "followers";
 
     }
@@ -179,7 +181,7 @@ public class FollowController {
             }
             ViewOfObject vo =new ViewOfObject();
             vo.set("user",user);
-            vo.set("commmentCount",commentService.getUserCommentCount(uid));
+            vo.set("commentCount",commentService.getUserCommentCount(uid));
             vo.set("followerCount",followService.getFollowerCount(EntityType.ENTITY_USER,uid));
             vo.set("followeeCount",followService.getFolloweeCount(uid,EntityType.ENTITY_USER));
             if (localUserId!=0){
@@ -189,17 +191,11 @@ public class FollowController {
             }
 
             userInfos.add(vo);
+            System.out.println("打印用户"+user);
 
         }
         return  userInfos;
     }
-
-
-
-
-
-
-
 
 
 }

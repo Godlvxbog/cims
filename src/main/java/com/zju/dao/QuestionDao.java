@@ -30,4 +30,9 @@ public interface QuestionDao {
 
     @Update({"update ", TABLE_NAME, " set comment_count = #{commentCount} where id=#{id}"})
     int updateCommentCount(@Param("id") int id, @Param("commentCount") int commentCount);
+
+    //获取总的数目
+    //某个用户的的评论数
+    @Select({"select count(id) from ", TABLE_NAME})
+    int getQuestionCount();
 }

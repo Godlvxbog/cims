@@ -12,8 +12,17 @@ public class RedisKeyUtil {
     //关注的数据列表key：粉丝和关注对象
     private static String BIZ_FOLLLOWER="FOLLLOWER";
     private static String BIZ_FOLLLOWEE="FOLLLOWEE";
+    private static String BIZ_TIMELINE="TIMELINE";
 
-//    要知道每个key下面都是一个容器，用来装映射的，
+    public static String getTimelineKey(int userId) {
+        return BIZ_TIMELINE + SPLIT + String.valueOf(userId);
+    }
+
+    public static void setBizTimeline(String bizTimeline) {
+        BIZ_TIMELINE = bizTimeline;
+    }
+
+    //    要知道每个key下面都是一个容器，用来装映射的，
     //每个实体所有的粉丝的表的key，保证所有实体所有的粉丝列表
     public static String getFollowerKey(int entityType,int entityId){
         return BIZ_FOLLLOWER+SPLIT+String.valueOf(entityType)+SPLIT+String.valueOf(entityId);

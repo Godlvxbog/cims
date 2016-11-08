@@ -4,49 +4,78 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
-    <meta name="description" content="一个真实的网络问答社区，帮助你寻找答案，分享知识。">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>问答 - ?【^……^】?</title>
-    <link rel="dns-prefetch" href="">
-    <link rel="stylesheet" href="../styles/login.css">
+
+
+    <link rel="stylesheet" href="../editor/css/style.css" />
+    <link rel="stylesheet" href="../editor/css/editormd.css" />
 
 </head>
-<body class="zhi  no-auth">
-<div class="index-main">
-    <div class="index-main-body">
-        <div class="index-header">
-            <h1 class="logo hide-text"><img src="../images/res/nk.png" alt=""></h1>
-            <h2 class="subtitle">
-                #if($msg)
-                $!{msg}
-                #else
-                与世界分享你的知识、经验和见解
-                #end
-            </h2>
-        </div>
-        <div class="desk-front sign-flow clearfix sign-flow-simple">
-            <div class="view view-signin" data-za-module="SignInForm" style="display: block;">
-                <form id="questionform" method="post">
-                    <div class="group-inputs">
-                        <div class="input-wrapper">
-                            <input type="text" name="title" aria-label="标题" placeholder="标题" required="">
-                        </div>
-                        <br>
-                        <div class="input-wrapper">
-                            <textarea  name="content" aria-label="内容" placeholder="内容" style="margin:auto" rows="12" cols="40" required=""></textarea>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="command clearfix">
-                        <button class="sign-button submit" style="margin-bottom: auto" type="submit" onclick="form=document.getElementById('questionform');form.action='/question/add1'">发布</button>
-                        <button class="sign-button "  >取消</button>
-                    </div>
+<body >
+<br>
+<br><br><br><br><br><br><br><br><br><br>
 
-                </form>
-            </div>
+
+<form id="questionform" method="post">
+    <div class="group-inputs">
+        <div class="input-wrapper">
+            <input style="height: 50px;width: 600px" type="text" name="title" aria-label="标题" placeholder="标题" required="">
         </div>
+        <br>
+
     </div>
-</div>
+    <br>
+
+
+    <div id="test-editormd">
+        <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc"></textarea>
+        <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
+
+        <textarea  name="content" >
+
+        </textarea>
+    </div>
+
+
+
+
+
+
+    <div class="command clearfix">
+        <button class="btn btn-sm " style="margin-bottom: auto" type="submit" onclick="form=document.getElementById('questionform');form.action='/question/add1'">发布</button>
+
+        <button class="btn btn-sm"  >取消</button>
+    </div>
+
+
+
+
+
+</form>
+
+
+
+
+
+<script src="../editor/js/jquery.min.js"></script>
+<script src="../editor/js/editormd.min.js"></script>
+<script type="text/javascript">
+    var testEditor;
+
+    $(function() {
+        testEditor = editormd("test-editormd", {
+            width   : "60%",
+            height  : 600,
+            syncScrolling : "single",
+            path    : "./editor/lib/",
+            saveHTMLToTextarea : true
+        });
+
+    });
+</script>
+
+
+
+
+
 </body>
 </html>

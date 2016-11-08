@@ -1,0 +1,54 @@
+/*html的样式*/
+html,body{
+    color:#505050;
+    line-height: 2em;
+    background: #bce8f1;
+
+}
+
+/*导航*/
+.main-header{
+    text-align: center;
+    padding: 40px 0px;/*上下40，左右0px*/
+    margin: auto;
+}
+
+.main-header h1{
+    color: floralwhite;
+}
+
+.main-navigation{
+    text-align: center;
+    background: white;
+    border-top: 1px solid blue;
+    border-bottom: 3px solid #bce8f1;
+    margin-bottom: 35px;
+}
+
+.main-navigation .menu{
+    pandding:0;
+    margin: 0;
+}
+
+.main-navigation .menu li.nav-current{
+    border-bottom: 3px solid #e67e22;
+    margin-bottom: -2px;
+}
+
+.main-navigation .menu li{
+    list-style: none;
+    display: inline-block;
+    position: relative;
+
+
+}
+
+
+.main-navigation .menu li a{
+    color: #505050;
+    line-height: 4em;
+    display: block;
+    padding: 0 21px;
+
+}
+

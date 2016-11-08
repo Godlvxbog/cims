@@ -1,32 +1,40 @@
-#parse("header.html")
-<link rel="stylesheet" media="all" href="../styles/letter.css">
-<div id="main">
-    <div class="zg-wrap zu-main clearfix ">
-        <ul class="letter-chatlist">
-             #foreach($message in $messages)
-            <li id="msg-item-4009580">
-                <a class="list-head">
-                    <img alt="头像" src="${message.user.headUrl}">
-                </a>
-                <div class="tooltip fade right in">
-                    <div class="tooltip-arrow"></div>
-                    <div class="tooltip-inner letter-chat clearfix">
+#parse("./mypages/header.html")
 
+<hr>
+<div class="container">
+    <div class="row clearfix">
+        <aside class="col-md-2 sidebar"></aside>
+
+        <div class="col-md-8 main-content">
+
+            <div>
+                <ul class="letter-chatlist">
+                    #foreach($message in $messages)
+                    <li>
+                        <a>
+                            <img alt="头像" src="${message.user.headUrl}">
+                        </a>
+                        <br>
+                        消息发送者：${ message.user.name}
                         <p class="chat-content">
                             $message.message.content
                         </p>
 
-                        <div class="letter-info">
-                            <p class="letter-time">$date.format('yyyy-MM-dd HH:mm:ss', $message.message.createdDate)</p>
-                            <!-- <a href="javascript:void(0);" id="del-link" name="4009580">删除</a> -->
-                        </div>
+                        <p class="letter-time">
+                            $date.format('yyyy-MM-dd HH:mm:ss', $message.message.createdDate)
+                        </p>
 
-                    </div>
-                </div>
-            </li>
-            #end
-        </ul>
+                    </li>
+                    <hr>
+                    #end
+                </ul>
 
+            </div>
+
+        </div>
+
+        <div class="col-md-2 sidebar"></div>
     </div>
 </div>
+
 #parse("footer.html")

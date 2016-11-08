@@ -1,48 +1,55 @@
-#parse("header.html")
+#parse("./mypages/header.html")
 
-<link rel="stylesheet" media="all" href="../styles/letter.css">
-    <div id="main">
+<div class="container">
+    <div class="row clearfix">
+        <aside class="col-md-2 sidebar"></aside>
 
-        <div class="zg-wrap zu-main clearfix ">
-            <ul class="letter-list">
+        <div class="col-md-8">
+
+            <ul>
 
                 #foreach($conversation in $conversations)
-                <li id="conversation-item-10005_622873">
+                <li>
 
-                    <a class="letter-link" href="/msg/detail?conversationId=$conversation.message.conversationId"></a>
-                    <div class="letter-info">
+                    <div>
 
-                        <span class="l-time">$date.format('yyyy-MM-dd HH:mm:ss', $conversation.message.createdDate)</span>
-                        <div class="l-operate-bar">
-                            <!--<a href="javascript:void(0);" class="sns-action-del" data-id="10005_622873">
-                            删除
-                            </a>-->
-                            <a href="/msg/detail?conversationId=$conversation.message.conversationId">
-                                共$conversation.message.id条会话
-                            </a>
-                        </div>
-                    </div>
-                    <div class="chat-headbox">
-                        <span class="msg-num">
-                            $conversation.unread
+                        <span>$date.format('yyyy-MM-dd HH:mm:ss', $conversation.message.createdDate)</span>
+
+
+                        <a href="/msg/detail?conversationId=$conversation.message.conversationId">
+                            共$conversation.message.id条会话
+                        </a>
+
+
+
+                        <span>
+                            $conversation.unread 条未读消息
                         </span>
-                        <a class="list-head" href="/user/$!{conversation.user.id}">
+                        <br>
+                        <a href="/user/$!{conversation.user.id}">
                             <img alt="头像" src="$conversation.user.headUrl">
                         </a>
-                    </div>
-                    <div class="letter-detail">
-                        <a title="通知" class="letter-name level-color-1">
-                            $conversation.user.name
+
+
+                        <a>
+                            消息发送者：$conversation.user.name
                         </a>
-                        <p class="letter-brief">
-                            $conversation.message.content
+
+                        <p>
+                            最新消息： $conversation.message.content
                         </p>
+
+
                     </div>
                 </li>
+                <hr>
                 #end
             </ul>
 
         </div>
-    </div>
 
+        <aside class="col-md-2 sidebar"></aside>
+
+    </div>
+</div>
 #parse("footer.html")

@@ -1,5 +1,8 @@
 package com.zju.controller;
 
+import com.zju.async.EventModel;
+import com.zju.async.EventProducer;
+import com.zju.async.EventType;
 import com.zju.model.Comment;
 import com.zju.model.EntityType;
 import com.zju.model.HostHolder;
@@ -31,6 +34,8 @@ public class CommentController {
 
     @Autowired
     QuestionService questionService;
+    @Autowired
+    EventProducer eventProducer;
 
     @RequestMapping(path = "/addComment")
     public String addComment(@RequestParam("questionId") int questionId,
@@ -54,6 +59,11 @@ public class CommentController {
             commentService.addComment(comment);
             int comCount=commentService.getCommentCount(comment.getEntityId(),comment.getEntityType());
             questionService.updateCommentCount(comment.getEntityId(),comCount);
+
+            //评论完成之后应该发一个评论事件
+            eventProducer.fireEvent(new EventModel(EventType.COMMENT)
+                    .setActorId(comment.getUserId())
+                    .setEntityId(questionId));
 
 
         }catch (Exception e){

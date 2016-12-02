@@ -1,6 +1,6 @@
-package com.zju.dao;
+package xbog.dao;
 
-import com.zju.model.LoginTicket;
+import xbog.model.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
 /**

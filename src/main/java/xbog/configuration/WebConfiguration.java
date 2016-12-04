@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  *
  */
 @Component
-public class WendaWebConfiguration extends WebMvcConfigurerAdapter {
+public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Autowired
     PassportInterceptor passportInterceptor;
 

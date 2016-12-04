@@ -47,11 +47,9 @@ public class HomeController {
     @RequestMapping(value = {"/home","/"})
     public String home(Model model,@RequestParam(value = "pageIndex", defaultValue = "1") Integer pageIndex) {
 
-        System.out.println("可以打印中文吗");
         //分页准备数据
         int totalcount=questionService.getQuestionCount();
         Pager pager=new Pager(pageIndex,10,totalcount);
-        System.out.println(pager.getCurrentPage()+"  "+pager.getNextPage()+" "+pager.getTotalPage());
 
         List<ViewOfObject> vos=getQuestions(0,pager.getStartIndex(),10);
         model.addAttribute("vos", vos);
